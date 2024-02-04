@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+  frontend:
+    image: frontend
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    networks:
+      - bobthebuilder
+  backend:
+    image: backend
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - bobthebuilder
+
+networks:
+  bobthebuilder:
+    driver: bridge
