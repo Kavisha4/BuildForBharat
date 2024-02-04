@@ -1,9 +1,9 @@
 FROM node:19-bullseye
 
-RUN cp -r . /frontend
-
+COPY . /frontend
 WORKDIR /frontend
+EXPOSE 5173
 
 RUN npm i
 
-ENTRYPOINT [ "npm", "run", "dev" ]
+ENTRYPOINT [ "npm", "run", "dev", "--", "--host" ]

@@ -1,8 +1,8 @@
 FROM node:19-bullseye
 
-RUN cp -r . /frontend
-
-WORKDIR /frontend
+COPY . /backend
+WORKDIR /backend
+EXPOSE 5173
 
 RUN npm i
 
