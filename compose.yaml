@@ -4,6 +4,7 @@ services:
   frontend:
     image: frontend
     container_name: frontend
+    restart: always
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -14,6 +15,7 @@ services:
   backend:
     image: backend
     container_name: backend
+    restart: always
     build:
       context: ./backend
       dockerfile: Dockerfile
