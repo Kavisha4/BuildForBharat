@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const mysql = require("mysql")
 
 const app = express();
 app.use(
@@ -7,6 +8,13 @@ app.use(
     origin: "http://localhost:5173",
   })
 );
+
+const db = mysql.createConnection({
+  host: "localhost",
+  user: 'root',
+  password: '',
+  database: 'bfb' //tentitively
+})
 
 app.get("/", (req, res) => {
   res.send("Backend is here!");
