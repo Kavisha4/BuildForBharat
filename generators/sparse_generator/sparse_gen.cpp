@@ -12,19 +12,19 @@ using namespace std;
 
 void gen_random_sparse_matrix(const long long rows = 30000, const long long cols = 10000000)
 {
-    ofstream sparse_matrix("sparse_matrix.txt");
+    ofstream sparse_matrix("sparse_matrix.csv");
     long long sparse_factor = 100; // The greater, the more sparse -> 1 (0), 2(0.50), 3 (0.66), 4 (0.75), 5 (0.80), 10 (0.89), 100 (0.99)
     long long cnt = 0;
+    sparse_matrix << "pin_code_index,merchant_index\n";
     for (long long r = 0; r < rows; r++)
     {
         for (long long c = 0; c < cols; c++)
         {
             if (rand() % sparse_factor == 0)
-                sparse_matrix << to_string(c) << " ";
+                sparse_matrix << to_string(r) << "," << to_string(c) << "\n";
             else
                 cnt++;
         }
-        sparse_matrix << "\n";
     }
     cout << "Sparsity: " << (cnt * 1.0) / (rows * cols * 1.0) << "\n";
     sparse_matrix.close();

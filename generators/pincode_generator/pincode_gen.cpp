@@ -30,8 +30,9 @@ int main()
 {
     srand((unsigned)time(NULL) * getpid());
     // Pin code is a 6 digit number -> 9*10*10*10*10*10 = 900,000 pin codes possible
-    ofstream pincodes("pincodes.txt");
+    ofstream pincodes("pincodes.csv");
+    pincodes<<"index,pin_code\n";
     for (int i = 0; i < 30000; i++)
-        pincodes << gen_random_pincode() << "\n";
+        pincodes << i << "," << gen_random_pincode() << "\n";
     pincodes.close();
 }

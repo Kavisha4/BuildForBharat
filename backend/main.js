@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const {BigQuery} = require('@google-cloud/bigquery')
 
 const app = express();
 app.use(
@@ -8,7 +9,26 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
+  const bigqueryClient = new BigQuery();
+
+  // The SQL query to run
+  const sqlQuery = `SELECT edition, report_type
+      FROM \`bigquery-public-data.america_health_rankings.ahr\`
+      WHERE edition = @edition`;
+
+  const options = {
+    query: sqlQuery,
+    // Location must match that of the dataset(s) referenced in the query.
+    location: 'US',
+    params: {edition: 2021},
+  };
+
+  // Run the query
+  const [rows] = await bigqueryClient.query(options);
+
+  console.log('Rows:');
+  rows.forEach(row => console.log(row));
   res.send("Backend is here!");
 });
 

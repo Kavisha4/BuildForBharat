@@ -30,8 +30,9 @@ int main()
 {
     srand((unsigned)time(NULL) * getpid());
     // Merchant id is a 10 digit number -> 9*10*10*10*10*10*10*10*10*10 = 9,000,000,000 Merchant ids possible
-    ofstream merchant_ids("merchant_ids.txt");
+    ofstream merchant_ids("merchant_ids.csv");
+    merchant_ids<<"index,merchant_id\n";
     for (long i = 0; i < 10000000; i++)
-        merchant_ids << gen_random_merchant_id() << "\n";
+        merchant_ids << i << "," << gen_random_merchant_id() << "\n";
     merchant_ids.close();
 }
