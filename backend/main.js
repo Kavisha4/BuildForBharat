@@ -9,27 +9,38 @@ app.use(
   })
 );
 
-app.get("/", async (req, res) => {
+app.get("/merchants", async (req, res) => {
+  let pincodes = req.query.pincodes;
+  pincodes = pincodes.split(",");
   const bigqueryClient = new BigQuery();
-
-  // The SQL query to run
-  const sqlQuery = `SELECT edition, report_type
-      FROM \`bigquery-public-data.america_health_rankings.ahr\`
-      WHERE edition = @edition`;
-
-  const options = {
+  let sqlQuery = "";
+  for (let idx = 0; idx < pincodes.length; idx++) {
+    const val = pincodes[idx];
+    const findPincodeIndexSqlQuery =
+      `SELECT \`index\` FROM \`refined-aria-413310.bob_the_builder.pin_codes\` WHERE pin_code=` +
+      val;
+    const [rows] = await bigqueryClient.query({
+      query: findPincodeIndexSqlQuery,
+      location: "EU",
+    });
+    if (rows[0] == undefined)
+      return res.send({ Error: "Pincode " + val + " not found in db" });
+    sqlQuery +=
+      `SELECT merchant_index FROM \`refined-aria-413310.bob_the_builder.pinicode_merchant_map\` WHERE pin_code_index=` +
+      rows[0]["index"];
+    if (idx != pincodes.length - 1) sqlQuery += "\nINTERSECT DISTINCT\n";
+  }
+  const [rows] = await bigqueryClient.query({
     query: sqlQuery,
-    // Location must match that of the dataset(s) referenced in the query.
-    location: "US",
-    params: { edition: 2021 },
+    location: "EU",
+  });
+  let merchant_indexes = {
+    merchant_indexes: [],
   };
-
-  // Run the query
-  const [rows] = await bigqueryClient.query(options);
-
-  console.log("Rows:");
-  rows.forEach((row) => console.log(row));
-  res.send(rows);
+  rows.forEach((val, idx) => {
+    merchant_indexes["merchant_indexes"].push(val["merchant_index"]);
+  });
+  return res.send(merchant_indexes);
 });
 
 const PORT = process.env.PORT || 8080;
