@@ -1,54 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Form from './Components/Form';
+import Results from './Components/Results'; 
 
 function App() {
-  const [pincode, setPincode] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // You can perform any action with the pincode here, such as sending it to a server or updating state.
+  const handleSubmit = (pincode) => {
     console.log('Pincode submitted:', pincode);
+    // Redirect to results page after form submission
+    window.location.href = '/results';
   };
 
   return (
-    
+    <Router>
       <div className="relative h-screen">
-      <video
-        autoPlay
-        loop
-        muted
-        className="absolute top-0 left-0 object-cover w-full h-full"
-      >
-        <source src="/public/bg.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      
-      <div className="flex items-center justify-center h-full">
-        <form onSubmit={handleSubmit} className="bg-gray-200 p-12 rounded-lg shadow-md z-10 backdrop-blur-md">
-          <div className="grid grid-cols-2">
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pincode">
-                Pincode:
-              </label>
-              <input
-                id="pincode"
-                type="text"
-                value={pincode}
-                onChange={(e) => setPincode(e.target.value)}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              />
-            </div>
-            <div className="mt-7 ml-4">
-              <button
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white w-40 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Submit
-              </button>
-            </div>
-          </div>
-        </form>
+        <video
+          autoPlay
+          loop
+          muted
+          className="absolute top-0 left-0 object-cover w-full h-full"
+        >
+          <source src="/public/bg.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <Routes>
+          <Route exact path="/" element={<Form onSubmit={handleSubmit}/>}/>
+            
+          <Route path="/results" element={<Results />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
