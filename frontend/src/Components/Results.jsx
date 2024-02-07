@@ -34,7 +34,7 @@ function Results() {
 
   return (
     <div className="px-4 py-8 bg-gray-200 z-20 relative">
-      <h1 className="text-white bg-black px-4 py-2 text-2xl mb-4">Results Page</h1>
+      <h1 className="text-white bg-black px-4 py-2 text-2xl mb-4 text-center">Results Page</h1>
       <div className="w-70 mx-auto bg-gray-100 p-4 rounded-lg">
         <table className="w-full">
           <thead>
