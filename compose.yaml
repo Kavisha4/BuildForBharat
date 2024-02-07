@@ -23,6 +23,8 @@ services:
       - 8080:8080
     networks:
       - bobthebuilder
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/backend/key.json
 
 networks:
   bobthebuilder:
