@@ -7,11 +7,11 @@ function Results() {
     { pincode: '67890', merchant: 'Merchant B' },
     { pincode: '54321', merchant: 'Merchant C' },
     { pincode: '09876', merchant: 'Merchant D' },
-    { pincode: '12345', merchant: 'Merchant A' },
+    { pincode: '12345', merchant: 'Merchant E' },
     { pincode: '67890', merchant: 'Merchant B' },
     { pincode: '54321', merchant: 'Merchant C' },
     { pincode: '09876', merchant: 'Merchant D' },
-    { pincode: '12345', merchant: 'Merchant A' },
+    { pincode: '12345', merchant: 'Merchant F' },
     { pincode: '67890', merchant: 'Merchant B' },
     { pincode: '54321', merchant: 'Merchant C' },
     { pincode: '09876', merchant: 'Merchant D' },
@@ -21,16 +21,19 @@ function Results() {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(4); // Number of items per page
 
-  // Calculate indexes for pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sampleData.slice(indexOfFirstItem, indexOfLastItem);
-
   // Calculate total number of pages
   const totalPages = Math.ceil(sampleData.length / itemsPerPage);
 
   // Change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const nextPage = () => setCurrentPage(currentPage + 1);
+  const prevPage = () => setCurrentPage(currentPage - 1);
+  const goToPage = (page) => setCurrentPage(page);
+
+  // Generate page numbers for pagination
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
 
   return (
     <div className="px-4 py-8 bg-gray-200 z-20 relative">
@@ -44,7 +47,8 @@ function Results() {
             </tr>
           </thead>
           <tbody>
-            {currentItems.map((item, index) => (
+            {/* Render items based on current page */}
+            {sampleData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item, index) => (
               <tr key={index} className="bg-gray-200">
                 <td className="py-2 px-4 text-center">{item.pincode}</td>
                 <td className="py-2 px-4 text-center">{item.merchant}</td>
@@ -53,13 +57,18 @@ function Results() {
           </tbody>
         </table>
         {/* Pagination */}
-        <ul className="flex justify-center mt-4">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <li key={index} className="mr-2">
-              <button className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer" onClick={() => paginate(index + 1)}>{index + 1}</button>
-            </li>
+        <div className="flex justify-center mt-4">
+          <button className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2" onClick={prevPage} disabled={currentPage === 1}>Previous</button>
+          {currentPage > 3 && <button className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2" onClick={() => goToPage(1)}>1</button>}
+          {currentPage > 4 && <span className="px-4 py-2">...</span>}
+          {pageNumbers.map((pageNumber) => (
+            (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2) && 
+            <button key={pageNumber} className={`px-4 py-2 ${pageNumber === currentPage ? 'bg-green-500 text-white' : 'bg-white text-gray-900'} rounded cursor-pointer mr-2`} onClick={() => goToPage(pageNumber)}>{pageNumber}</button>
           ))}
-        </ul>
+          {currentPage < totalPages - 3 && <span className="px-4 py-2">...</span>}
+          {currentPage < totalPages - 2 && <button className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2" onClick={() => goToPage(totalPages)}>{totalPages}</button>}
+          <button className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer" onClick={nextPage} disabled={currentPage === totalPages}>Next</button>
+        </div>
       </div>
     </div>
   );
