@@ -29,7 +29,7 @@ app.get("/", async(req, res) => {
 
   console.log('Rows:');
   rows.forEach(row => console.log(row));
-  res.send("Backend is here!");
+  res.send(rows);
 });
 
 const PORT = process.env.PORT || 8080;

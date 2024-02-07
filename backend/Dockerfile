@@ -2,7 +2,7 @@ FROM node:19-bullseye
 
 COPY . /backend
 WORKDIR /backend
-EXPOSE 5173
+EXPOSE 8080
 
 RUN npm i
 
