@@ -4,11 +4,7 @@ import Form from './Components/Form';
 import Results from './Components/Results'; 
 
 function App() {
-  const handleSubmit = (pincode) => {
-    console.log('Pincode submitted:', pincode);
-    // Redirect to results page after form submission
-    window.location.href = '/results';
-  };
+  
 
   return (
     <Router>
@@ -23,9 +19,9 @@ function App() {
           Your browser does not support the video tag.
         </video>
         <Routes>
-          <Route exact path="/" element={<Form onSubmit={handleSubmit}/>}/>
+          <Route exact path="/" element={<Form />}/>
             
-          <Route path="/results" element={<Results />} />
+          <Route path="/results/:pincodes" element={<Results />} />
         </Routes>
       </div>
     </Router>
