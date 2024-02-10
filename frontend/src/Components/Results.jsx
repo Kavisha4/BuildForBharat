@@ -16,7 +16,7 @@ function Results() {
         const pincodeArray = pincodes.split(',').map(pincode => pincode.trim());
         //console.log(pincodeArray)
         const promises = pincodeArray.map(pincode =>
-          fetch(`http://localhost:8080/merchants?pincodes=${pincode}`, {
+          fetch(`http://backend:8080/merchants?pincodes=${pincode}`, {
             headers: {
               'Access-Control-Allow-Origin': '*',
             },
