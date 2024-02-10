@@ -5,7 +5,7 @@ const { BigQuery } = require("@google-cloud/bigquery");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
   })
 );
 
