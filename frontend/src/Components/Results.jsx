@@ -17,7 +17,7 @@ function Results() {
       try {
         const pincodeArray = pincodes.split(',').map(pincode => pincode.trim());
         const promises = pincodeArray.map(pincode =>
-          fetch(`http://localhost:8080/merchants?pincodes=${pincode}`)
+          fetch(`http://35.207.207.45/:8080/merchants?pincodes=${pincode}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error(`Failed to fetch data for pincode ${pincode}`);
