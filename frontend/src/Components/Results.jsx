@@ -9,14 +9,15 @@ function Results() {
   const [itemsPerPage] = useState(15); // Number of items per page
   const { pincodes } = useParams(); // Get pincodes from URL parameter
 
+  let currentMerchantData = []; // Declare currentMerchantData here
+
   useEffect(() => {
     const fetchMerchantData = async () => {
       setLoading(true);
       try {
         const pincodeArray = pincodes.split(',').map(pincode => pincode.trim());
-        //console.log(pincodeArray)
         const promises = pincodeArray.map(pincode =>
-          fetch(`http://35.207.207.45/:8080/merchants?pincodes=${pincode}`)
+          fetch(`http://localhost:8080/merchants?pincodes=${pincode}`)
             .then(response => {
               if (!response.ok) {
                 throw new Error(`Failed to fetch data for pincode ${pincode}`);
@@ -25,21 +26,26 @@ function Results() {
             })
         );
         const data = await Promise.all(promises);
-        const invalidPincode = data.find(merchantData => merchantData.length === 0);
-        if (invalidPincode) {
-          throw new Error(`Invalid pincode ${pincodeArray[data.indexOf(invalidPincode)]}`);
+  
+        const invalidPincodeIndex = data.findIndex(merchantData => !merchantData || merchantData.length === 0);
+        if (invalidPincodeIndex !== -1) {
+          setError(`Invalid pincode ${pincodeArray[invalidPincodeIndex]}`);
+          setLoading(false); // Stop loading
+          return; // Stop further execution
         }
+  
         setMerchantData(data[0]["merchant_indexes"]);
-     
+       
       } catch (error) {
         setError(error.message);
       }
       setLoading(false);
     };
-
+  
     fetchMerchantData();
   }, [pincodes]);
-
+  
+  
   if (loading) {
     return <div className='z-20 relative text-center'>Loading...</div>;
   }
@@ -47,40 +53,43 @@ function Results() {
   if (error) {
     return <div className='z-20 relative text-center'>Error: {error}</div>;
   }
-
-  const totalPages = Math.ceil(merchantData.length / itemsPerPage);
-
-  const nextPage = () => setCurrentPage(currentPage + 1);
-  const prevPage = () => setCurrentPage(currentPage - 1);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentMerchantData = merchantData.slice(indexOfFirstItem, indexOfLastItem);
-
+  var totalPages;
+  if (merchantData) {
+    totalPages = Math.ceil(merchantData.length / itemsPerPage);
+    currentMerchantData = merchantData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  }
+  
 
   return (
     <div className="px-4 py-8 bg-gray-200 z-20 relative">
       <h1 className="text-white bg-black px-4 py-2 text-2xl mb-4 text-center">Results Page</h1>
+      {
+        !merchantData && 
+        <div className='text-center'>Pincode does not exist</div>
+      }
       <div className="w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg">
-        <table className="w-full table-auto">
-          <thead>
-            <tr className="bg-gray-800 text-white">
-              <th className="py-2 px-4">Pincode</th>
-              <th className="py-2 px-4">Merchant ID</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentMerchantData.map((merchant, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-100'}>
-                <td className="py-2 px-4">{pincodes}</td>
-                <td className="py-2 px-4">{merchant}</td>
+          {
+            merchantData && <table className="w-full table-auto">
+          
+            <thead>
+              <tr className="bg-gray-800 text-white">
+                <th className="py-2 px-4">Pincode</th>
+                <th className="py-2 px-4">Merchant ID</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentMerchantData.map((merchant, index) => (
+                <tr key={index} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-100'}>
+                  <td className="py-2 px-4">{pincodes}</td>
+                  <td className="py-2 px-4">{merchant}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          }
       </div>
       {/* Pagination */}
-      {merchantData.length > 0 && (
+      {merchantData && merchantData.length > 0 && (
         <div className="flex justify-center mt-4">
           <button
             className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2"
@@ -89,46 +98,16 @@ function Results() {
           >
             Previous
           </button>
-          {currentPage > 1 && (
-            <>
-              <button
-                className="px-4 py-2 bg-white text-gray-900 rounded cursor-pointer mr-2"
-                onClick={() => setCurrentPage(1)}
-              >
-                1
-              </button>
-              {currentPage > 4 && <span className="px-4 py-2">...</span>}
-            </>
-          )}
-          {Array.from({ length: Math.min(totalPages, 10) }, (_, index) => {
-            const pageNumber = index + 1;
-            const isCurrentPage = pageNumber === currentPage;
-            const showPageNumber = currentPage === 1 || currentPage === totalPages || (pageNumber >= currentPage - 2 && pageNumber <= currentPage + 2);
-            return (
-              showPageNumber && (
-                <button
-                  key={index}
-                  className={`px-4 py-2 ${isCurrentPage ? 'bg-green-500 text-white' : 'bg-white text-gray-900'} rounded cursor-pointer mr-2`}
-                  onClick={() => setCurrentPage(pageNumber)}
-                >
-                  {pageNumber}
-                </button>
-              )
-            );
-          })}
-          {currentPage < totalPages && (
-            <>
-              {currentPage < totalPages - 3 && <span className="px-4 py-2">...</span>}
-              <button
-                className="px-4 py-2 bg-white text-gray-900 rounded cursor-pointer mr-2"
-                onClick={() => setCurrentPage(totalPages)}
-              >
-                {totalPages}
-              </button>
-            </>
-          )}
+          {/* Pagination buttons */}
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer"
+            className="px-4 py-2 bg-white text-gray-900 rounded cursor-pointer mr-2"
+            onClick={() => setCurrentPage(1)}
+          >
+            1
+          </button>
+          {/* Other pagination buttons */}
+          <button
+            className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2"
             onClick={nextPage}
             disabled={currentPage === totalPages}
           >
@@ -138,7 +117,6 @@ function Results() {
       )}
     </div>
   );
-          }
+}
 
-
-export default Results;
+export default Results
