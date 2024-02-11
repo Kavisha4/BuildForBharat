@@ -25,6 +25,10 @@ function Results() {
             })
         );
         const data = await Promise.all(promises);
+        const invalidPincode = data.find(merchantData => merchantData.length === 0);
+        if (invalidPincode) {
+          throw new Error(`Invalid pincode ${pincodeArray[data.indexOf(invalidPincode)]}`);
+        }
         setMerchantData(data[0]["merchant_indexes"]);
      
       } catch (error) {
