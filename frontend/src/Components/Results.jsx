@@ -53,6 +53,15 @@ function Results() {
   if (error) {
     return <div className='z-20 relative text-center'>Error: {error}</div>;
   }
+
+  const nextPage = () => {
+    setCurrentPage(prevPage => prevPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage(prevPage => prevPage - 1);
+  };
+  
   var totalPages;
   if (merchantData) {
     totalPages = Math.ceil(merchantData.length / itemsPerPage);
