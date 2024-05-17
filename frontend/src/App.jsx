@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Form from './Components/Form';
 import Results from './Components/Results'; 
+import Login from './Components/Merchant/Login';
+import Signup from './Components/Merchant/Signup'
+import NewPin from './Components/Merchant/NewPin';
 
 function App() {
   
@@ -22,6 +25,9 @@ function App() {
           <Route exact path="/" element={<Form />}/>
             
           <Route path="/results/:pincodes" element={<Results />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/addNewPin" element={<NewPin/>} />
         </Routes>
       </div>
     </Router>
