@@ -1,6 +1,7 @@
 .vscode
 *.txt
 *.csv
+*.env
 *key.json
 *node_modules
 *package-lock.json
