@@ -4,3 +4,5 @@
 *key.json
 *node_modules
 *package-lock.json
+generators/pincode_extractor/penv
+!generators/pincode_extractor/govt_india_pincode.csv
