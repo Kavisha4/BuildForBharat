@@ -1,6 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const { BigQuery } = require("@google-cloud/bigquery");
+const bigQueryConfig = {
+  projectId: "refined-aria-413310",
+  datasetName: "bob_the_builder",
+};
+const tableNameConfig = {
+  merchantTableName: "merchants",
+};
 
 const app = express();
 app.use(
@@ -8,8 +15,47 @@ app.use(
     origin: "*",
   })
 );
+app.use(express.json());
+
+app.post("/add_merchant", async (req, res) => {
+  const userEmailToCreate = req.body.email;
+  const bigqueryClient = new BigQuery({ projectId: bigQueryConfig.projectId });
+  const dataset = bigqueryClient.dataset(bigQueryConfig.datasetName);
+  const table = dataset.table(tableNameConfig.merchantTableName);
+  const searchUserByEmailQuery = "SELECT email FROM `" + `${bigQueryConfig.projectId}` + "." + `${bigQueryConfig.datasetName}` + "." + `${tableNameConfig.merchantTableName}` + "` WHERE email=" + `"${userEmailToCreate}";`;
+  table.query(
+    searchUserByEmailQuery,
+    (err, response) => {
+      if (err) {
+        console.log({"error": err});
+        return res.status(500).send({
+          response: `${JSON.stringify(err)}`,
+        });
+      }
+      if (response === null || response.length === 0) {
+        // User does not exist so make a new user
+        table.insert({ email: userEmailToCreate }, function (err, response) {
+          if (err) {
+            console.log({"error": err});
+            return res.status(500).send({
+              response: `${JSON.stringify(err)}`,
+            });
+          }
+          return res.status(201).send({
+            response: `User with email ${userEmailToCreate} created successfully`,
+          });
+        });
+      } else {
+        return res.status(303).send({
+          response: `User with email ${userEmailToCreate} already exists`,
+        });
+      }
+    }
+  );
+});
 
 app.get("/merchants", async (req, res) => {
+  // TODO: change the implementation to accommodate changes
   let pincodes = req.query.pincodes;
   pincodes = pincodes.split(",");
   const bigqueryClient = new BigQuery();
