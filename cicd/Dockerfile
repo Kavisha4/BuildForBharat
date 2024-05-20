@@ -6,4 +6,4 @@ EXPOSE 8081
 
 RUN npm i
 
-ENTRYPOINT [ "npm", "run", "dev", "--", "--host" ]
+ENTRYPOINT [ "npm", "run", "dev" ]
