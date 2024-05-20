@@ -119,7 +119,7 @@ const mapMerchantEmailToPincodes = async (req, res) => {
             });
           }
         });
-        const searchPincodeMerchantMapQuery = `SELECT pin_code, email FROM \`${mapTableFullName}\` WHERE pin_code=${pincode} AND email="${merchant_email}";`;
+        const searchPincodeMerchantMapQuery = `SELECT pin_code, email FROM \`${mapTableFullName}\` WHERE pin_code="${pincode}" AND email="${merchant_email}";`;
         mapTable.query(searchPincodeMerchantMapQuery, (err, response) => {
           if (err) {
             console.log({ error: err });
