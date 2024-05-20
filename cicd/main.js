@@ -6,8 +6,6 @@ const app = express();
 const PORT = 8081;
 
 app.post("/update-github", (req, res) => {
-  console.log("Req -> ", req);
-  console.log("Req Body -> ", req.body);
   const script = exec("/bin/bash script.sh", (error, stdout, stderr) => {
     if (stdout) console.log(stdout);
     if (stderr) console.log(stderr);

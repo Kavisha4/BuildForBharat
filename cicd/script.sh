@@ -1,5 +1,7 @@
 #!/bin/bash
 
+whoami
+ls
 cd ~/BuildForBharat/
 git pull
 docker compose down
