@@ -1,0 +1,99 @@
+{
+	"info": {
+		"_postman_id": "ba57d893-2517-4b65-852f-debb41b3798b",
+		"name": "Build For Bharat",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "16980008"
+	},
+	"item": [
+		{
+			"name": "Add a Merchant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"merchant@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/add_merchant"
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Pincode",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"pincode\": \"123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/add_pincode"
+			},
+			"response": []
+		},
+		{
+			"name": "Map merchant to pincodes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"merchant_email\": \"merchant@gmail.com\",\n    \"pincodes\": [\n        \"515004\",\n        \"515731\",\n        \"515002\"\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/v1/map_merchant_to_pincodes"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all merchants that serve a set of pincodes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/merchants?pincodes=515004,515002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"merchants"
+					],
+					"query": [
+						{
+							"key": "pincodes",
+							"value": "515004,515002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All pincodes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/v1/pincodes"
+			},
+			"response": []
+		}
+	]
+}
