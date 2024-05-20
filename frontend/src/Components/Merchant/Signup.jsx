@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
+import axios from 'axios';
 
 
 const Signup = () => {
@@ -15,8 +16,14 @@ const Signup = () => {
     e.preventDefault();
     setError('');
 
+    const payload = {
+      email: merchantId,
+    };
+
     try {
         await createUserWithEmailAndPassword(auth, merchantId, password);
+        const response = await axios.post('http://localhost:8080/v1/add_merchant', payload);
+        console.log('Response:', response.data);
         navigate('/login');
       } catch (error) {
         setError('Failed to sign up. Please try again.');

@@ -17,6 +17,7 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, merchantId, password);
+      localStorage.setItem('merchantEmail', merchantId);
       navigate('/addNewPin'); 
     } catch (error) {
       setError('Failed to login. Please check your credentials.');
