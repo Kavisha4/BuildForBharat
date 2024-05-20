@@ -25,6 +25,17 @@ services:
       - bobthebuilder
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS=/backend/key.json
+  updater:
+    image: github-updater
+    container_name: github-updater
+    restart: always
+    build:
+      context: ./cicd
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    networks:
+      - bobthebuilder
 
 networks:
   bobthebuilder:
