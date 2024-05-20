@@ -161,7 +161,7 @@ const getMerchantsGivenPincodes = async (req, res) => {
       response: `No pincodes received`,
     });
   }
-  pincodes.forEach((pincode) => {
+  pincodes.forEach((pincode, idx) => {
     sqlQuery += `SELECT email FROM \`${mapTableFullName}\` WHERE pin_code=${pincode}`;
     if (idx != pincodes.length - 1) sqlQuery += "\nINTERSECT DISTINCT\n";
   });
