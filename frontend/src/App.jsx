@@ -5,10 +5,9 @@ import Results from './Components/Results';
 import Login from './Components/Merchant/Login';
 import Signup from './Components/Merchant/Signup'
 import NewPin from './Components/Merchant/NewPin';
+import Home from './Components/Home';
 
 function App() {
-  
-
   return (
     <Router>
       <div className="relative h-screen">
@@ -22,8 +21,8 @@ function App() {
           Your browser does not support the video tag.
         </video>
         <Routes>
-          <Route exact path="/" element={<Form />}/>
-            
+          <Route path='/' element={<Home/>} />
+          <Route exact path="/search" element={<Form />}/>
           <Route path="/results/:pincodes" element={<Results />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
