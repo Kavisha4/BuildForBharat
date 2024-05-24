@@ -1,4 +1,3 @@
-// src/components/Login.jsx
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -26,7 +25,16 @@ const Signup = () => {
         console.log('Response:', response.data);
         navigate('/login');
       } catch (error) {
-        setError('Failed to sign up. Please try again.');
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            setError('Email is already registered. Please log in.');
+            break;
+          case 'auth/invalid-email':
+            setError('Invalid email address. Please check your email.');
+            break;
+          default:
+              setError('Failed to sign up. Please check your credentials.');
+        }
       }
   };
 
