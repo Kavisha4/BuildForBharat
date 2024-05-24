@@ -1,9 +1,7 @@
-// src/components/Login.jsx
 import React, { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { Link, useNavigate } from 'react-router-dom';
-
 
 const Login = () => {
   const [merchantId, setMerchantId] = useState('');
@@ -20,7 +18,19 @@ const Login = () => {
       localStorage.setItem('merchantEmail', merchantId);
       navigate('/addNewPin'); 
     } catch (error) {
-      setError('Failed to login. Please check your credentials.');
+      switch (error.code) {
+        case 'auth/user-not-found':
+          setError('Email is not registered. Please sign up.');
+          break;
+        case 'auth/wrong-password':
+          setError('Incorrect password. Please try again.');
+          break;
+        case 'auth/invalid-email':
+          setError('Invalid email address. Please check your email.');
+          break;
+        default:
+            setError('Failed to login. Please check your credentials.');
+      }
     }
   };
 
@@ -68,7 +78,6 @@ const Login = () => {
           <Link to="/signup" className="text-blue-500 hover:underline">Sign Up</Link>
         </div>
       </div>
-      
     </div>
   );
 };
