@@ -7,6 +7,7 @@ import Signup from './Components/Merchant/Signup'
 import NewPin from './Components/Merchant/NewPin';
 import Home from './Components/Home';
 import Map from './Components/Map';
+import ProtectedRoute from './Components/ProtectedRoute'; 
 
 function App() {
   return (
@@ -27,7 +28,14 @@ function App() {
           <Route path="/results/:pincodes" element={<Results />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/addNewPin" element={<NewPin/>} />
+          <Route
+          path="/newPin"
+          element={
+            <ProtectedRoute>
+              <NewPin />
+            </ProtectedRoute>
+          }
+        />
           <Route path="/map" element={<Map />} />
         </Routes>
       </div>
