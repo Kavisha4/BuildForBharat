@@ -203,10 +203,40 @@ const getAllPincodes = async (req, res) => {
   });
 };
 
+const getLatLonForPincode = async (req, res) => {
+  const pincode = parseInt(req.query.pincode);
+  const getLatLonQuery = `SELECT latitude, longitude FROM \`${pincodeTableFullName}\` WHERE pin_code = ${pincode};`;
+  pincodeTable.query(getLatLonQuery, (err, response) => {
+    if (err) {
+      console.log({ error: err });
+      return res.status(500).send({
+        response: `${JSON.stringify(err)}`,
+      });
+    }
+    if (response) {
+      if (response.length === 0) {
+        return res.status(200).send({
+          latitude: null,
+          longitude: null,
+        });
+      }
+      return res.status(200).send({
+        latitude: response[0].latitude,
+        longitude: response[0].longitude,
+      });
+    } else {
+      return res.status(400).send({
+        response: `Pincode not found`,
+      });
+    }
+  });
+};
+
 module.exports = {
   addMerchant,
   addPincode,
   mapMerchantEmailToPincodes,
   getMerchantsGivenPincodes,
   getAllPincodes,
+  getLatLonForPincode,
 };
