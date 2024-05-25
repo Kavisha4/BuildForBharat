@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+width: 100vw;
+height: 100vh;
+}
+
+#map
+{height: 80%;
+width: 90%;
+margin: auto;
+}

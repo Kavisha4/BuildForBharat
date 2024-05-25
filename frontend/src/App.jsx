@@ -6,6 +6,7 @@ import Login from './Components/Merchant/Login';
 import Signup from './Components/Merchant/Signup'
 import NewPin from './Components/Merchant/NewPin';
 import Home from './Components/Home';
+import Map from './Components/Map';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/addNewPin" element={<NewPin/>} />
+          <Route path="/map" element={<Map />} />
         </Routes>
       </div>
     </Router>
