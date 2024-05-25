@@ -29,6 +29,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/addNewPin" element={<NewPin/>} />
           <Route path="/map" element={<Map />} />
+          <Route path="/merchant-map" element={<MerchantMap />} />
         </Routes>
       </div>
     </Router>
