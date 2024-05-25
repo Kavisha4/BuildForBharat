@@ -6,7 +6,8 @@ const bigQueryConfig = {
 const tableNameConfig = {
   merchantTableName: "merchants",
   pincodeTableName: "pin_codes_india",
-  mapperTableName: "indian_pincode_merchant_map"
+  mapperTableName: "indian_pincode_merchant_map",
+  merchantIdPincodeLatLongTableName: "merchantID_pincodes_lat_long_karnataka"
 };
 
 module.exports = {
