@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY;
 
 const MerchantMap = () => {
   const [merchantID, setMerchantID] = useState('');
@@ -15,18 +15,25 @@ const MerchantMap = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://35.207.207.45:5173?merchantID=${merchantID}`);
+      const response = await fetch(http://localhost:8080/v1/pincodes?merchantEmail=${merchantID});
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      const data = await response.json();
-      setPincodes(data);
-      setError(null);
+      const responseData = await response.json();
+      // Check if response contains the "response" key and if it's an array
+      if (Array.isArray(responseData.response)) {
+        // Set the array of pin codes to pincodes state
+        setPincodes(responseData.response);
+        setError(null);
+      } else {
+        throw new Error('Invalid API response format');
+      }
     } catch (error) {
       setError(error.message);
       setPincodes([]);
     }
   };
+  
 
   const mapContainerStyle = {
     height: '400px',
@@ -39,7 +46,7 @@ const MerchantMap = () => {
   };
 
   return (
-    <div>
+    <div className='relative h-screen'>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -51,7 +58,7 @@ const MerchantMap = () => {
         <button type="submit">Search</button>
       </form>
       {error && <p>Error: {error}</p>}
-      <LoadScript googleMapsApiKey={API_KEY}>
+      <LoadScript googleMapsApiKey={apiKey}>
         <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={5}>
           {pincodes.map((pincode, index) => (
             <Marker
