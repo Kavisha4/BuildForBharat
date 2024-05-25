@@ -39,6 +39,7 @@ function App() {
         />
           <Route path="/map" element={<Map />} />
           <Route path="/merchant-map" element={<MerchantMap />} />
+          <Route path="/results/:merchantID" element={<Results />} />
         </Routes>
       </div>
     </Router>
