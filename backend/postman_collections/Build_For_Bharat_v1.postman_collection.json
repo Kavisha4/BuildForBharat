@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"merchant@gmail.com\"\n}",
+					"raw": "{\n    \"email\": \"test@mail.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -49,7 +49,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"merchant_email\": \"merchant@gmail.com\",\n    \"pincodes\": [\n        \"515004\",\n        \"515731\",\n        \"515002\"\n    ]\n}",
+					"raw": "{\n    \"merchant_email\": \"test@mail.com\",\n    \"pincodes\": [\n        \"515004\",\n        \"515731\",\n        \"515002\"\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -80,6 +80,32 @@
 						{
 							"key": "pincodes",
 							"value": "515004,515002"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get latitude longitude for pincode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/lat_long?pincode=560090",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"lat_long"
+					],
+					"query": [
+						{
+							"key": "pincode",
+							"value": "560090"
 						}
 					]
 				}
