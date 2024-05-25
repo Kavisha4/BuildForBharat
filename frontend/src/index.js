@@ -1,6 +1,7 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const bigquery = new BigQuery();
 
+require('dotenv').config();
 exports.getLocation = async (req, res) => {
   const merchantID = req.query.merchantID;
 

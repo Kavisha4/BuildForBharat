@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const API_KEY = 'AIzaSyBVWkgJ-1vGWr_Qr2g0mb5syFZwFqhBR0s';
+const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const MerchantMap = () => {
   const [merchantID, setMerchantID] = useState('');

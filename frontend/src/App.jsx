@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Form from './Components/Form';
 import Results from './Components/Results'; 
 import Login from './Components/Merchant/Login';
-import Signup from './Components/Merchant/Signup'
+import Signup from './Components/Merchant/Signup';
+import MerchantMap from './Components/Merchant/MerchantMap'
 import NewPin from './Components/Merchant/NewPin';
 import Home from './Components/Home';
 import Map from './Components/Map';
