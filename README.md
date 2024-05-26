@@ -1,7 +1,6 @@
 # **Optimal Storage & Retrieval in Sparse Matrix**
 
-FrontEnd: http://35.207.207.45:5173/
-Backend: HTTP://35.207.207.45:8080/merchants/pincode/{pincode}
+Visit our [website]([url](http://35.207.207.45:5173/)).
 
 ## **Introduction**
 Pincode-based serviceability is crucial for merchants to define the areas where they can provide their products and services. However, handling serviceability verification efficiently, especially at scale, poses a significant challenge. This problem statement focuses on devising an optimal solution for storing and retrieving pincode serviceability information by merchants, considering a large number of merchants and pincodes.
