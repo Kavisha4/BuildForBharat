@@ -14,7 +14,7 @@ function Form() {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/v1/pincodes');
+        const response = await axios.get('http://35.207.207.45:5173/v1/pincodes');
         const fetchedOptions = response.data.response.map(item => ({
           value: item,
           label: item.toString(),
