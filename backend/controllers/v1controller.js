@@ -7,10 +7,14 @@ const dataset = bigqueryClient.dataset(bigQueryConfig.datasetName);
 const merchantTable = dataset.table(tableNameConfig.merchantTableName);
 const pincodeTable = dataset.table(tableNameConfig.pincodeTableName);
 const mapTable = dataset.table(tableNameConfig.mapperTableName);
+const merchantIdPincodeLatLongTable = dataset.table(
+  tableNameConfig.merchantIdPincodeLatLongTableName
+);
 
 const merchantTableFullName = `${bigQueryConfig.projectId}.${bigQueryConfig.datasetName}.${tableNameConfig.merchantTableName}`;
 const pincodeTableFullName = `${bigQueryConfig.projectId}.${bigQueryConfig.datasetName}.${tableNameConfig.pincodeTableName}`;
 const mapTableFullName = `${bigQueryConfig.projectId}.${bigQueryConfig.datasetName}.${tableNameConfig.mapperTableName}`;
+const merchantIdPincodeLatLongTableName = `${bigQueryConfig.projectId}.${bigQueryConfig.datasetName}.${tableNameConfig.merchantIdPincodeLatLongTableName}`;
 
 const addMerchant = async (req, res) => {
   const emailOfMerchantToCreate = req.body.email;
@@ -179,28 +183,64 @@ const getMerchantsGivenPincodes = async (req, res) => {
 };
 
 const getAllPincodes = async (req, res) => {
-  const getAllPincodesQuery = `SELECT pin_code FROM \`${pincodeTableFullName}\`;`;
-  pincodeTable.query(getAllPincodesQuery, (err, response) => {
-    if (err) {
-      console.log({ error: err });
-      return res.status(500).send({
-        response: `${JSON.stringify(err)}`,
-      });
-    }
-    if (response && response.length !== 0) {
-      pin_code_array = [];
-      response.forEach((pincodeJSON) => {
-        pin_code_array.push(pincodeJSON.pin_code);
-      });
-      return res.status(200).send({
-        response: pin_code_array,
-      });
-    } else {
-      return res.status(400).send({
-        response: `No pincodes found`,
-      });
-    }
-  });
+  // getPincodesGivenMerchantEmail
+  let merchant_email = req.query.merchantEmail;
+  if (merchant_email) {
+    const getPincodesGivenMerchantEmail = `SELECT Pincode, Latitude, Longitude FROM \`${merchantIdPincodeLatLongTableName}\` WHERE merchant_ID="${merchant_email}";`;
+    merchantIdPincodeLatLongTable.query(
+      getPincodesGivenMerchantEmail,
+      (err, response) => {
+        if (err) {
+          console.log({ error: err });
+          return res.status(500).send({
+            response: `${JSON.stringify(err)}`,
+          });
+        }
+        if (response && response.length !== 0) {
+          pin_code_array = [];
+          response.forEach((pincodeJSON) => {
+            pin_code_array.push({
+              pin_code:
+                pincodeJSON.Pincode.split(" ")[0] +
+                pincodeJSON.Pincode.split(" ")[1],
+              latitude: pincodeJSON.Latitude,
+              longitude: pincodeJSON.Longitude,
+            });
+          });
+          return res.status(200).send({
+            response: pin_code_array,
+          });
+        } else {
+          return res.status(400).send({
+            response: `No pincodes found`,
+          });
+        }
+      }
+    );
+  } else {
+    const getAllPincodesQuery = `SELECT pin_code FROM \`${pincodeTableFullName}\`;`;
+    pincodeTable.query(getAllPincodesQuery, (err, response) => {
+      if (err) {
+        console.log({ error: err });
+        return res.status(500).send({
+          response: `${JSON.stringify(err)}`,
+        });
+      }
+      if (response && response.length !== 0) {
+        pin_code_array = [];
+        response.forEach((pincodeJSON) => {
+          pin_code_array.push(pincodeJSON.pin_code);
+        });
+        return res.status(200).send({
+          response: pin_code_array,
+        });
+      } else {
+        return res.status(400).send({
+          response: `No pincodes found`,
+        });
+      }
+    });
+  }
 };
 
 const getLatLonForPincode = async (req, res) => {

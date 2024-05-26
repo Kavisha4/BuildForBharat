@@ -6,6 +6,7 @@ const {
   mapMerchantEmailToPincodes,
   getMerchantsGivenPincodes,
   getAllPincodes,
+  getPincodesGivenMerchantEmail,
   getLatLonForPincode
 } = require("../controllers/v1controller");
 

@@ -13,7 +13,7 @@ function ReverseResults() {
     const fetchLocations = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:8080/api/locations?merchantID=${merchantID}`);
+        const response = await fetch(`http://35.207.207.45:5173/api/locations?merchantID=${merchantID}`);
         if (!response.ok) {
           throw new Error('Failed to fetch locations');
         }
