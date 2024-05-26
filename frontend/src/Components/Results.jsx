@@ -91,11 +91,11 @@ function Results() {
   const pageNumbers = getPageNumbers();
 
   return (
-    <div className="px-4 py-8 bg-gray-200 z-20 relative">
+    <div className="px-4 py-8 bg-gray-200 z-20 relative min-h-screen">
       <h1 className="text-white bg-black px-4 py-2 text-2xl mb-4 text-center">Results Page</h1>
       <div className="w-full max-w-3xl mx-auto bg-white shadow-md rounded-lg">
         {merchantData.length === 0 && 
-          <div className='text-center'>No merchants found for the given pincodes</div>
+          <div className='text-center py-4'>No merchants found for the given pincodes</div>
         }
         {merchantData.length > 0 && (
           <table className="w-full table-auto">
@@ -107,7 +107,7 @@ function Results() {
             <tbody>
               {currentMerchantData.map((merchant, index) => (
                 <tr key={merchant} className={index % 2 === 0 ? 'bg-gray-200' : 'bg-gray-100'}>
-                  <td className="py-2 text-center px-4">{merchant}</td>
+                  <td className="py-2 text-center sm:text-base text-xs px-4">{merchant}</td>
                 </tr>
               ))}
             </tbody>
@@ -116,9 +116,9 @@ function Results() {
       </div>
       {/* Pagination */}
       {merchantData.length > 0 && (
-        <div className="flex justify-center mt-4">
+        <div className="flex flex-wrap justify-center mt-4">
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2"
+            className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2 mb-2"
             onClick={prevPage}
             disabled={currentPage === 1}
           >
@@ -127,14 +127,14 @@ function Results() {
           {pageNumbers.map((pageNumber) => (
             <button
               key={pageNumber}
-              className={`px-4 py-2 ${currentPage === pageNumber ? 'bg-green-500 text-white' : 'bg-white text-gray-900'} rounded cursor-pointer mr-2`}
+              className={`px-4 py-2 mb-2 ${currentPage === pageNumber ? 'bg-green-500 text-white' : 'bg-white text-gray-900'} rounded cursor-pointer mr-2`}
               onClick={() => setCurrentPage(pageNumber)}
             >
               {pageNumber}
             </button>
           ))}
           <button
-            className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2"
+            className="px-4 py-2 bg-green-500 text-white rounded cursor-pointer mr-2 mb-2"
             onClick={nextPage}
             disabled={currentPage === totalPages}
           >
