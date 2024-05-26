@@ -21,7 +21,7 @@ const Signup = () => {
 
     try {
         await createUserWithEmailAndPassword(auth, merchantId, password);
-        const response = await axios.post('http://35.207.207.45:5173/v1/add_merchant', payload);
+        const response = await axios.post('http://35.207.207.45:8080/v1/add_merchant', payload);
         console.log('Response:', response.data);
         navigate('/login');
       } catch (error) {
