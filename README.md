@@ -19,6 +19,7 @@ The proposed solution utilizes Google Cloud Platform (GCP) services, including B
 2. **Frontend Application (Built with React and Tailwind CSS):**
    - Allows users to input one or more pincodes to search for.
    - Displays the serviceability status for the given pincode(s) based on the retrieved data from the backend.
+   - We also use GoogleMaps Javascript API to visualise the queried pincodes directly on the map
 
 ## **Implementation Details**
 ### **Backend Setup:**
