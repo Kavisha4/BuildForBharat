@@ -58,3 +58,11 @@ The proposed solution utilizes Google Cloud Platform (GCP) services, including B
 
 ## **Conclusion**
 The proposed solution provides an efficient way to store and retrieve pincode serviceability information using a combination of BigQuery, GCP services, React, and Tailwind CSS. By leveraging cloud-based infrastructure and modern web technologies, the solution offers scalability, performance, and real-time responsiveness, meeting the requirements of large-scale pincode-based serviceability verification.
+
+Link to FrontEnd Deployed : [frontend](http://35.207.207.45:5173/)
+Link to Demo: [demo](https://drive.google.com/file/d/1EvPhACkor5iJ9PvzWFo7-2qgihfy17UR/view?usp=drive_link)
+Link to Google Drive: [drive](https://drive.google.com/drive/folders/1v4aFlVtSW4Px_1gnglEslMk6MQZaIxM-?usp=drive_link)
+
+<img width="433" alt="image" src="https://github.com/Kavisha4/BuildForBharat/assets/76434647/ddb002e0-47bc-4725-bc8c-92a403051108">
+<img width="531" alt="image" src="https://github.com/Kavisha4/BuildForBharat/assets/76434647/9df22367-b782-4aea-80ce-7d760dbb8a36">
+
